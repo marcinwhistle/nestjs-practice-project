@@ -16,8 +16,8 @@ export class ProductsController {
   }
 
   @Delete('/:id')
-  public deleteById(@Param('id') id: string){
-    return
+  public deleteById(@Param('id') id: string) {
+    this.productsService.deleteById(id);
+    return { success: true };
   }
-
 }
