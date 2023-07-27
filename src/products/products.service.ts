@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { db, Product } from './../db';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProductsService {
@@ -20,5 +21,11 @@ export class ProductsService {
     } else {
       return null;
     }
+  }
+
+  public create(productData: Omit<Product, 'id'>): Product {
+    const newProduct = { ...productData, id: uuidv4() };
+    db.products.push(newProduct);
+    return newProduct;
   }
 }
