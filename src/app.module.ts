@@ -1,4 +1,5 @@
-import { Module,
+import {
+  Module,
   NestModule,
   MiddlewareConsumer,
   RequestMethod,
