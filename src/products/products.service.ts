@@ -17,14 +17,10 @@ export class ProductsService {
     });
   }
 
-  public deleteById(id: Product['id']): Product | null {
-    const indexToDelete = db.products.findIndex((p) => p.id === id);
-
-    if (indexToDelete !== -1) {
-      const deletedProduct = db.products.splice(indexToDelete, 1)[0];
-      return deletedProduct;
-    } else {
-      return null;
+  public deleteById(id: Product['id']): Promise<Product | null> {
+    return this.prismaService.product.delete({
+      where: { id },
+    });
     }
   }
 

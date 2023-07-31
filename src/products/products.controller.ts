@@ -30,10 +30,10 @@ export class ProductsController {
   }
 
   @Delete('/:id')
-  deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
-    if (!this.productsService.getById(id))
+  async deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
+    if (!(await this.productsService.getById(id)))
       throw new NotFoundException('Product not found');
-    this.productsService.deleteById(id);
+    await this.productsService.deleteById(id);
     return { success: true };
   }
 
