@@ -12,7 +12,6 @@ import { ProductsService } from './products.service';
 import { CreateProductDTO } from './dtos/create-product.dto';
 import { UpdateProductDTO } from './dtos/update-product.dto';
 import { ParseUUIDPipe } from '@nestjs/common';
-import { PrismaService } from 'src/shared/services/prisma.service';
 
 @Controller('products')
 export class ProductsController {
@@ -24,8 +23,8 @@ export class ProductsController {
   }
 
   @Get('/:id')
-  public getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    const product = this.productsService.getById(id);
+  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const product = await this.productsService.getById(id);
     if (!product) throw new NotFoundException('Product not found');
     return product;
   }
