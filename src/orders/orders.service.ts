@@ -8,11 +8,11 @@ export class OrdersService {
     return db.orders;
   }
   public getById(id: Order['id']): Order | null {
-    return db.orders.find((p) => p.id === id);
+    return db.orders.find((order) => order.id === id);
   }
 
   public deleteById(id: Order['id']): Order | null {
-    const indexToDelete = db.orders.findIndex((o) => o.id === id);
+    const indexToDelete = db.orders.findIndex((order) => order.id === id);
 
     if (indexToDelete !== -1) {
       const deletedOrder = db.orders.splice(indexToDelete, 1)[0];
@@ -29,11 +29,11 @@ export class OrdersService {
   }
 
   public updateById(id: Product['id'], orderData: Omit<Order, 'id'>): void {
-    db.orders = db.orders.map((o) => {
-      if (o.id === id) {
-        return { ...o, ...orderData };
+    db.orders = db.orders.map((order) => {
+      if (order.id === id) {
+        return { ...order, ...orderData };
       }
-      return o;
+      return order;
     });
   }
 }

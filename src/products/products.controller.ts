@@ -40,7 +40,7 @@ export class ProductsController {
   @Post('/')
   create(@Body() productData: CreateProductDTO) {
     return this.productsService.create(productData);
-}
+  }
 
   @Put('/:id')
   update(
@@ -52,5 +52,5 @@ export class ProductsController {
 
     this.productsService.updateById(id, productData);
     return { success: true };
-}
+  }
 }

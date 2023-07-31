@@ -9,11 +9,11 @@ export class ProductsService {
   }
 
   public getById(id: Product['id']): Product | null {
-    return db.products.find((p) => p.id === id);
+    return db.products.find((product) => product.id === id);
   }
 
   public deleteById(id: Product['id']): Product | null {
-    const indexToDelete = db.products.findIndex((p) => p.id === id);
+    const indexToDelete = db.products.findIndex((product) => product.id === id);
 
     if (indexToDelete !== -1) {
       const deletedProduct = db.products.splice(indexToDelete, 1)[0];
@@ -30,11 +30,11 @@ export class ProductsService {
   }
 
   public updateById(id: Product['id'], productData: Omit<Product, 'id'>): void {
-    db.products = db.products.map((p) => {
-      if (p.id === id) {
-        return { ...p, ...productData };
+    db.products = db.products.map((product) => {
+      if (product.id === id) {
+        return { ...product, ...productData };
       }
-      return p;
+      return product;
     });
   }
 }

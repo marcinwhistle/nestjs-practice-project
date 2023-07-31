@@ -59,5 +59,5 @@ export const db: DBData = {
       client: 'Al Swearengen',
       address: '12 Main St, Deadwood, DA 12002',
     },
-]
+  ],
 };
