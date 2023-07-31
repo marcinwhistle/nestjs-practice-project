@@ -12,6 +12,7 @@ import { ProductsService } from './products.service';
 import { CreateProductDTO } from './dtos/create-product.dto';
 import { UpdateProductDTO } from './dtos/update-product.dto';
 import { ParseUUIDPipe } from '@nestjs/common';
+import { PrismaService } from 'src/shared/services/prisma.service';
 
 @Controller('products')
 export class ProductsController {

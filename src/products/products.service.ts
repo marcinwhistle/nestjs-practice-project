@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { db, Product } from './../db';
 import { v4 as uuidv4 } from 'uuid';
+import { PrismaService } from 'src/shared/services/prisma.service';
 
 @Injectable()
 export class ProductsService {
+  constructor(private readonly prismaService: PrismaService) {}
+
   public getAll(): Product[] {
     return db.products;
   }
