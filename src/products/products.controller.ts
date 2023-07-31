@@ -53,5 +53,4 @@ export class ProductsController {
     this.productsService.updateById(id, productData);
     return { success: true };
 }
-
 }
