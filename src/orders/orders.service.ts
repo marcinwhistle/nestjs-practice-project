@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { db, Order, Product } from './../db';
-import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from 'src/shared/services/prisma/prisma.service';
+import { Order } from '@prisma/client';
 
 @Injectable()
 export class OrdersService {
@@ -23,16 +22,14 @@ export class OrdersService {
     });
   }
 
-  public create(
-    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<Order> {
+  public create(orderData: any): Promise<Order> {
     return this.prismaService.order.create({
       data: orderData,
     });
   }
 
   public updateById(
-    id: Product['id'],
+    id: Order['id'],
     orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<Order> {
     return this.prismaService.order.update({

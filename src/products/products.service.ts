@@ -22,9 +22,7 @@ export class ProductsService {
     });
   }
 
-  public create(
-    productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<Product> {
+  public create(productData: any): Promise<Product> {
     return this.prismaService.product.create({
       data: productData,
     });
