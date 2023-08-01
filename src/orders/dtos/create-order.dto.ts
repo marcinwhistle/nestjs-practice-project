@@ -8,7 +8,7 @@ export class CreateOrderDTO {
 
   @IsNotEmpty()
   @IsString()
-  @Length(5, 30)
+  // @Length(5, 30)
   productId: string;
 
   @IsNotEmpty()

@@ -7,7 +7,7 @@ export class OrdersService {
   constructor(private readonly prismaService: PrismaService) {}
 
   public getAll(): Promise<Order[]> {
-    return this.prismaService.order.findMany();
+    return this.prismaService.order.findMany({ include: { product: true } });
   }
 
   public getById(id: Order['id']): Promise<Order | null> {
@@ -23,8 +23,14 @@ export class OrdersService {
   }
 
   public create(orderData: any): Promise<Order> {
+    const { productId, ...otherData } = orderData;
     return this.prismaService.order.create({
-      data: orderData,
+      data: {
+        ...otherData,
+        product: {
+          connect: { id: productId },
+        },
+      },
     });
   }
 
