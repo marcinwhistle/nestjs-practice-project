@@ -17,29 +17,27 @@ export class OrdersService {
     });
   }
 
-  public deleteById(id: Order['id']): Order | null {
-    const indexToDelete = db.orders.findIndex((o) => o.id === id);
-
-    if (indexToDelete !== -1) {
-      const deletedOrder = db.orders.splice(indexToDelete, 1)[0];
-      return deletedOrder;
-    } else {
-      return null;
-    }
+  public deleteById(id: Order['id']): Promise<Order | null> {
+    return this.prismaService.order.delete({
+      where: { id },
+    });
   }
 
-  public create(orderData: Omit<Order, 'id'>): Order {
-    const newOrder = { ...orderData, id: uuidv4() };
-    db.orders.push(newOrder);
-    return newOrder;
+  public create(
+    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Order> {
+    return this.prismaService.order.create({
+      data: orderData,
+    });
   }
 
-  public updateById(id: Product['id'], orderData: Omit<Order, 'id'>): void {
-    db.orders = db.orders.map((o) => {
-      if (o.id === id) {
-        return { ...o, ...orderData };
-      }
-      return o;
+  public updateById(
+    id: Product['id'],
+    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Order> {
+    return this.prismaService.order.update({
+      where: { id },
+      data: orderData,
     });
   }
 }
