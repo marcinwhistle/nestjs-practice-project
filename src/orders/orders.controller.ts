@@ -23,14 +23,14 @@ export class OrdersController {
   }
 
   @Get('/:id')
-  getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    const order = this.ordersService.getById(id);
+  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const order = await this.ordersService.getById(id);
     if (!order) throw new NotFoundException('Order not found');
     return order;
   }
 
   @Delete('/:id')
-  deleteById(@Param('id', new ParseUUIDPipe()) id: string){
+  deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
     if (!this.ordersService.getById(id))
       throw new NotFoundException('Order not found');
     this.ordersService.deleteById(id);

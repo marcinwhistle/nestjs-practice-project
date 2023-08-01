@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { db, Order, Product } from './../db';
 import { v4 as uuidv4 } from 'uuid';
+import { PrismaService } from 'src/shared/services/prisma/prisma.service';
 
 @Injectable()
 export class OrdersService {
-  public getAll(): Order[] {
-    return db.orders;
+  constructor(private readonly prismaService: PrismaService) {}
+
+  public getAll(): Promise<Order[]> {
+    return this.prismaService.order.findMany();
   }
-  public getById(id: Order['id']): Order | null {
-    return db.orders.find((p) => p.id === id);
+
+  public getById(id: Order['id']): Promise<Order | null> {
+    return this.prismaService.order.findUnique({
+      where: { id },
+    });
   }
 
   public deleteById(id: Order['id']): Order | null {
