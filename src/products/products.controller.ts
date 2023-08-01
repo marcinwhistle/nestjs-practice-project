@@ -40,17 +40,17 @@ export class ProductsController {
   @Post('/')
   create(@Body() productData: CreateProductDTO) {
     return this.productsService.create(productData);
-}
+  }
 
   @Put('/:id')
-  update(
+  async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() productData: UpdateProductDTO,
   ) {
-    if (!this.productsService.getById(id))
+    if (!(await this.productsService.getById(id)))
       throw new NotFoundException('Product not found');
 
-    this.productsService.updateById(id, productData);
+    await this.productsService.updateById(id, productData);
     return { success: true };
-}
+  }
 }

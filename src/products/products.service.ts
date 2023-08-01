@@ -30,12 +30,13 @@ export class ProductsService {
     });
   }
 
-  public updateById(id: Product['id'], productData: Omit<Product, 'id'>): void {
-    db.products = db.products.map((p) => {
-      if (p.id === id) {
-        return { ...p, ...productData };
-      }
-      return p;
+  public updateById(
+    id: Product['id'],
+    productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Product> {
+    return this.prismaService.product.update({
+      where: { id },
+      data: productData,
     });
   }
 }
