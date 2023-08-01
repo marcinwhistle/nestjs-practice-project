@@ -30,14 +30,14 @@ export class OrdersController {
   }
 
   @Delete('/:id')
-  async eleteById(@Param('id', new ParseUUIDPipe()) id: string) {
+  async deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
     if (!(await this.ordersService.getById(id)))
       throw new NotFoundException('Order not found');
-    this.ordersService.deleteById(id);
+    await this.ordersService.deleteById(id);
     return { success: true };
   }
 
-  @Post('/orders')
+  @Post('/')
   create(@Body() orderData: CreateOrderDTO) {
     return this.ordersService.create(orderData);
   }
