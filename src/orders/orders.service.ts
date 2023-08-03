@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from 'src/shared/services/prisma/prisma.service';
 import { Order } from '@prisma/client';
 
@@ -23,22 +23,24 @@ export class OrdersService {
     });
   }
 
-  public create(orderData: any): Promise<Order> {
+  public async create(orderData: any): Promise<Order> {
     const { productId, ...otherData } = orderData;
-    return this.prismaService.order.create({
-      data: {
-        ...otherData,
-        product: {
-          connect: { id: productId },
+    try {
+      return await this.prismaService.order.create({
+        data: {
+          ...otherData,
+          product: {
+            connect: { id: productId },
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      if (error.code === 'P2025')
+        throw new BadRequestException("Product doesn't exist");
+    }
   }
 
-  public updateById(
-    id: Order['id'],
-    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<Order> {
+  public updateById(id: Order['id'], orderData: any): Promise<Order> {
     const { productId, ...otherData } = orderData;
     return this.prismaService.order.update({
       where: { id },
