@@ -1,6 +1,21 @@
 import { PrismaClient } from '@prisma/client';
 const db = new PrismaClient();
 
+function getClients() {
+  return [
+    {
+      id: 'fd105551-0f0d-4a9f-bc41-c559c8a17123',
+      name: 'Mac Gyver',
+      address: 'Ulica Sezamkowa 1',
+    },
+    {
+      id: 'fd105551-0f0d-4a9f-bc41-c559c8a17456',
+      name: 'John Lemon',
+      address: 'Ulica Muzyczna 123',
+    },
+  ];
+}
+
 function getProducts() {
   return [
     {
@@ -43,18 +58,21 @@ function getOrders() {
       client: 'John Doe',
       address: '123 Main Street, London',
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
+      clientId: 'fd105551-0f0d-4a9f-bc41-c559c8a17456',
     },
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17261',
       client: 'Jane Doe',
       address: '123 Main Street, London',
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
+      clientId: 'fd105551-0f0d-4a9f-bc41-c559c8a17456',
     },
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17262',
       client: 'Thomas Jefferson',
       address: 'Baker Street 12B, New York',
       productId: '01c7599d-318b-4b9f-baf7-51f3a936a2d4',
+      clientId: 'fd105551-0f0d-4a9f-bc41-c559c8a17123',
     },
   ];
 }
