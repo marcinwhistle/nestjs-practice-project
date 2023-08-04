@@ -17,6 +17,18 @@ import { ParseUUIDPipe } from '@nestjs/common';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @Get('/extended')
+  getAllExtended(): any {
+    return this.productsService.getAllExtended();
+  }
+
+  @Get('/extended/:id')
+  async getExtendedById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const product = await this.productsService.getExtendedById(id);
+    if (!product) throw new NotFoundException('Product not found');
+    return product;
+  }
+
   @Get('/')
   getAll(): any {
     return this.productsService.getAll();
