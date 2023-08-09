@@ -13,7 +13,7 @@ export class OrdersService {
   public getById(id: Order['id']): Promise<Order | null> {
     return this.prismaService.order.findUnique({
       where: { id },
-      include: { product: true },
+      include: { product: true, client: true },
     });
   }
 
@@ -24,30 +24,49 @@ export class OrdersService {
   }
 
   public async create(orderData: any): Promise<Order> {
-    const { productId, ...otherData } = orderData;
+    const { productId, clientId, ...otherData } = orderData;
     try {
+      const existProduct = await this.prismaService.product.findUnique({
+        where: { id: productId },
+      });
+      if (!existProduct) {
+        throw new BadRequestException("Product doesn't exist");
+      }
+      const existClient = await this.prismaService.client.findUnique({
+        where: { id: clientId },
+      });
+      if (!existClient) {
+        throw new BadRequestException("Client doesn't exist");
+      }
+
       return await this.prismaService.order.create({
         data: {
           ...otherData,
           product: {
             connect: { id: productId },
           },
+          client: {
+            connect: { id: clientId },
+          },
         },
       });
     } catch (error) {
-      if (error.code === 'P2025')
-        throw new BadRequestException("Product doesn't exist");
+      console.log(error.message);
+      throw error;
     }
   }
 
   public updateById(id: Order['id'], orderData: any): Promise<Order> {
-    const { productId, ...otherData } = orderData;
+    const { productId, clientId, ...otherData } = orderData;
     return this.prismaService.order.update({
       where: { id },
       data: {
         ...otherData,
         product: {
           connect: { id: productId },
+          client: {
+            connect: { id: clientId },
+          },
         },
       },
     });
